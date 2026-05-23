@@ -306,7 +306,7 @@ const SUPABASE_KEY = 'TU_ANON_KEY_AQUI';</div>
 
 <script src="config.js"></script>
 <script>
-let supabase = null;
+let supabaseClient = null;
 let gastos = [];
 let chartCat = null, chartPer = null, chartMes = null;
 
@@ -334,8 +334,8 @@ function switchTab(name) {
 async function init() {
   try {
     if (typeof SUPABASE_URL === 'undefined' || SUPABASE_URL.includes('TU_URL')) throw new Error('no_config');
-    const { createClient } = window.supabase || supabase;
-    supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    const { createClient } = supabase;
+    supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
     await cargar();
     document.getElementById('navStatus').textContent = '● en línea';
     document.getElementById('navStatus').style.color = '#5cb87a';
@@ -350,7 +350,7 @@ async function init() {
 }
 
 async function cargar() {
-  const { data, error } = await supabase.from('gastos').select('*').order('fecha', {ascending:false});
+  const { data, error } = await supabaseClient.from('gastos').select('*').order('fecha', {ascending:false});
   if (error) throw error;
   gastos = data || [];
   renderStats();
@@ -368,8 +368,8 @@ async function agregar() {
 
   const nuevo = { fecha, monto, categoria, quien, descripcion };
 
-  if (supabase) {
-    const { data, error } = await supabase.from('gastos').insert([nuevo]).select();
+  if (supabaseClient) {
+    const { data, error } = await supabaseClient.from('gastos').insert([nuevo]).select();
     if (error) { toast('Error al guardar'); return; }
     gastos.unshift(data[0]);
   } else {
@@ -389,11 +389,11 @@ async function agregar() {
 // ── BORRAR ──
 async function borrar(id) {
   if (!confirm('¿Borrar este gasto?')) return;
-  if (supabase) {
-    await supabase.from('gastos').delete().eq('id', id);
+  if (supabaseClient) {
+    await supabaseClient.from('gastos').delete().eq('id', id);
   }
   gastos = gastos.filter(g=>g.id!==id);
-  if (!supabase) localStorage.setItem('gastos_local', JSON.stringify(gastos));
+  if (!supabaseClient) localStorage.setItem('gastos_local', JSON.stringify(gastos));
   renderStats();
   renderTabla();
   toast('Eliminado');

@@ -1,9 +1,2 @@
-// ====================================================
-//  CONFIGURACIÓN DE SUPABASE
-//  Reemplaza los valores de abajo con los tuyos.
-//  Los encuentras en: supabase.com → tu proyecto →
-//  Project Settings → API
-// ====================================================
-
-const SUPABASE_URL = 'https://TU_URL.supabase.co';
-const SUPABASE_KEY = 'TU_ANON_KEY_AQUI';
+const SUPABASE_URL = 'https://iaypuduwhvhomxlwzbjr.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlheXB1ZHV3aHZob214bHd6YmpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNDk0MjgsImV4cCI6MjA5NDkyNTQyOH0.l8Hscptiglc-Alv-Yq3wB9Q3B4AQO_iG2zjNPyAQRwc';
